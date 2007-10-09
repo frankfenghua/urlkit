@@ -1,12 +1,24 @@
 <project name="urlkit" default="build">
-	<property name="compc.jar" value="${flex.home}/lib/compc.jar"/>
+	<property name="flex.sdks" value="/Applications/Adobe Flex Builder 3 Plug-in/sdks"/>
+	<property name="flex.sdk.version" value="2.0.1"/>
+	<property name="flex.home" value="${flex.sdks}/${flex.sdk.version}"/>
+	<property name="flex.compc.jar" value="${flex.home}/lib/compc.jar"/>
 	<property name="manifest.uri" value="http://www.allurent.com/2006/urlkit"/>
 	<target name="build">
-		<java jar="${compc.jar}" dir="." fork="true" failonerror="true">
+		<java jar="${flex.compc.jar}" dir="." fork="true" failonerror="true">
 			<arg value="+flexlib=${flex.home}/frameworks"/>
-		    <arg value="-source-path=."/>
-		    <arg value="-output=bin/UrlKit.swc"/>
-		    <arg value="-namespace=${manifest.uri},urlkit-manifest.xml"/>
+		    <arg value="-source-path=src"/>
+		    <arg value="-output=bin/urlkit.swc"/>
+		    <arg value="-namespace=${manifest.uri},src/urlkit-manifest.xml"/>
+		    <arg value="-include-namespaces=${manifest.uri}"/>
+		</java>
+	</target>
+	<target name="build-flex3">
+		<java jar="${flex.compc.jar}" dir="." fork="true" failonerror="true">
+			<arg value="+flexlib=${flex.home}/frameworks"/>
+		    <arg value="-source-path=src,flex3"/>
+		    <arg value="-output=bin/urlkit.swc"/>
+		    <arg value="-namespace=${manifest.uri},flex3/urlkit-manifest.xml"/>
 		    <arg value="-include-namespaces=${manifest.uri}"/>
 		</java>
 	</target>
