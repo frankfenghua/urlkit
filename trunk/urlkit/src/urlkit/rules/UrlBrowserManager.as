@@ -71,8 +71,8 @@ public class UrlBrowserManager extends EventDispatcher implements IMXMLObject
     {
         // determine initial value of browser URL in fragment ID
         _browserUrl = ExternalInterface.call("eval", "document.location.href");
-        var pos:int = _browserUrl.indexOf("#");
-        
+        var pos:int = _browserUrl ? _browserUrl.indexOf("#") : -1;
+
         if (pos != -1)
         {
             _browserUrl = _browserUrl.substr(pos + 1);
