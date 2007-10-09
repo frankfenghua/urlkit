@@ -26,16 +26,14 @@ package urlkit.rules
 
 import flash.events.*;
 import flash.external.*;
-import flash.system.*;
 import flash.net.*;
+import flash.system.*;
 import flash.utils.Timer;
 
-import mx.core.*;
 import mx.controls.*;
+import mx.core.*;
 import mx.events.*;
-import mx.events.BrowserChangeEvent;
-import mx.managers.IBrowserManager;
-import mx.managers.BrowserManager;
+import mx.managers.*;
 
 /**
  * This class is the interface interacts with an instance of IUrlApplicationState
@@ -52,6 +50,9 @@ public class FlexBrowserManagerAdapter extends EventDispatcher implements IMXMLO
     
     // the latest browser URL that we know of
     private var _browserUrl:String;
+    
+    // default application URL associated with a blank URL
+    private var _defaultUrl:String = "";
     
     // our owning application document
     private var _document:Object;
@@ -108,9 +109,14 @@ public class FlexBrowserManagerAdapter extends EventDispatcher implements IMXMLO
      */
     public function set browserUrl(newUrl:String):void
     {
-        // TODO: browser URL may need filtering here to remove query args, etc.
-        // if so, largely the same as setPlayerUrl -- refactor?
-
+        if (newUrl == _defaultUrl)
+        {
+            // NOTE: Workaround for Flex bug SDK-12955.
+            // fake out the browser URL as blank if we determined earlier that a blank
+            // fragment was present at initialization, and we're trying to change back to the default.
+            newUrl = "";
+        }
+        
         if (_browserUrl != newUrl)
         {
             dispatchEvent(new Event(Event.CHANGE));
@@ -193,6 +199,12 @@ public class FlexBrowserManagerAdapter extends EventDispatcher implements IMXMLO
     	_browserManager.init(applicationState.url, applicationState.title);
         _stateInitialized = true;
         
+        if (browserUrl == "")
+        {
+            // NOTE: Workaround for Flex bug SDK-12955.
+            _defaultUrl = applicationState.url;  // save this URL for workaround on empty URL later
+        }
+        
         Application.application.addEventListener(MouseEvent.MOUSE_DOWN, ieTitleBugWorkaround);
      }
      
@@ -217,7 +229,14 @@ public class FlexBrowserManagerAdapter extends EventDispatcher implements IMXMLO
      */
     private function setPlayerUrl(e:BrowserChangeEvent):void
     {
-        applicationState.containerUrl = browserUrl;
+        var url:String = browserUrl;
+        if (url == "")
+        {
+            // NOTE: Workaround for Flex bug SDK-12955.  Initing the BrowserManager above
+            // should remove any need to do this.
+            url = _defaultUrl;
+        }
+        applicationState.containerUrl = url;
     }
 
     /**
