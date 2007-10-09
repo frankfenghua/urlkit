@@ -1,11 +1,28 @@
-Version 0.60
-
 This software is provided under the open source license agreement
 attached at the end of this file.
 
+PROJECT CONTENTS
+
+	urlkit/		(this directory: the UrlKit library)
+	sample/		a sample application
+	test/		set of unit tests
+
+
+BUILDING
+
+All projects may be built either using Ant or Eclipse.
+
+The Eclipse projects are compatible with the public beta2 build of Flex Builder 3,
+since it provides multi-SDK support.  You can easily enough delete the project files and re-import into
+Flex Builder 2 if you prefer to use that.
+
+The Eclipse projects are set up to build against the 2.0.1hf3 SDK.  The Ant files will build
+against either SDK.  You must override the definition of the flex.home variable to point
+to your Flex install directory.
+
 USAGE
 
-1. Add the library bin/UrlKit.swc into your ActionScript
+1. Add the library bin/urlkit.swc or bin/urlkitFlex3.swc into your ActionScript
 classpath.  The MXML components associated with UrlKit are all available
 at the following component manifest URL:
 
@@ -14,8 +31,9 @@ at the following component manifest URL:
 
 2. Add UrlKit components to your project as needed.
 
-
-3. Modify your application's HTML source code as follows:
+3. FOR FLEX 2 ONLY: Modify your application's HTML source code as follows.  (Flex 3
+   now includes its own history-management Javascript in the standard HTML template, included
+   here as sample/html-template-flex3/.  You do not need to modify it.)
 
   a. ensure that the standard Flex "history" IFRAME is not included.
 
@@ -27,8 +45,8 @@ at the following component manifest URL:
      your system as this breaks Safari bookmarking support.
      
 
-4. Add the following files from the html-template/ directory to the same directory
-containing the page that loads your Flex application:
+  d. Add the following files from the html-template/ directory to the same directory
+     containing the page that loads your Flex application:
 
 	historyFrame.html
 	urlkit.css
@@ -45,23 +63,9 @@ functionality of the package.
 BROWSER SUPPORT
 
 This package has been tested on:
-	Firefox 1.5
+	Firefox 1.5, 2.0
 	IE 6 (Windows)
 	Safari 2
-
-
-COMPILATION FROM SOURCE
-
-Two options are provided:
-
-1. You may import the distribution as a complete Flex Builder 2
-project definition and build it there.
-
-2. An Ant build file is included for your convenience; it expects the
-property "flex.home" to be set to the Flex 2.0 SDK install directory.
-You can invoke this as follows:
-
-    ant -Dflex.home=<your SDK location>
 
 
 LICENSE:
