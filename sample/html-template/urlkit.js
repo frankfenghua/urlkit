@@ -197,6 +197,11 @@ function setTitle(title)
 {
 	document.title = title;
 }
+// Added for IE Fix
+function getTitle()
+{
+	return document.title;
+}
 
 /* Write an anchor into the page to legitimize it as a URL for Firefox et al. */
 function addAnchor(flexAppUrl)
