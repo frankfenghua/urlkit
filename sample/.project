@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>Bookmarks</name>
+	<name>sample</name>
 	<comment></comment>
 	<projects>
-		<project>UrlKit</project>
+		<project>urlkit</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
