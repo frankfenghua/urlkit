@@ -54,6 +54,17 @@ import mx.controls.*;
  * more conveniently by specifying the sourceValue property as a dot-delimited
  * binding expression for a scalar String, Number or Boolean property of the current
  * MXML document to be bidirectionally bound to this rule.
+ * 
+ * <p>The defaultValue property of a UrlValueRule permits the rule to both generate and match an
+ * empty URL when its value is equal to some value.  This is useful when the rule
+ * is typically expected to have some default value and it's not desirable to take up
+ * space in the URL with that value.  So if defaultValue is set to "foo" and the stringValue of the rule
+ * is also "foo", then no URL is generated.  Conversely, setting an empty URL into such a rule
+ * is permitted, and is considered to be an assignment of the string value "foo".
+ *   
+ * <p>To create a UrlValueRule which simply matches the empty string and isn't bound to
+ * any application state (often useful in situations involving UrlNavigatorRules or
+ * alternative choices), set the defaultValue to "".
  */
 public class UrlValueRule extends UrlBaseRule
 {
