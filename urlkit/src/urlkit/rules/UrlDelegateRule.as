@@ -26,11 +26,12 @@ package urlkit.rules
 
 import flash.events.*;
 import flash.utils.*;
+
+import mx.binding.*;
+import mx.controls.*;
 import mx.core.*;
 import mx.states.*;
 import mx.utils.*;
-import mx.binding.*;
-import mx.controls.*;
 
 [Event(name="ruleChanged", type="flash.events.Event")]
 [Event(name="change", type="flash.events.Event")]
@@ -48,6 +49,14 @@ import mx.controls.*;
 
 public class UrlDelegateRule extends UrlBaseRule
 {
+    /**
+     * If set, this flag enables strict matching against the child rule.  Normally this
+     * is disabled, because a delegate rule's child is often changed dynamically
+     * by a sibling rule.
+     */
+    [Bindable]
+    public var strictMatching:Boolean = false;
+
     // The child rule to which this rule delegates.
     private var _rule:IUrlRule;
 	
@@ -137,12 +146,12 @@ public class UrlDelegateRule extends UrlBaseRule
      */    
     override public function matchUrlPrefix(url:String):String
     {
-    	//if rule is null, return url instead of null
+    	//if strict matching is disabled, return url instead of null
     	//to allow for a possible match, because when a
     	//delegate rule is used in combination with a navigator
     	//rule, the delegated rule may not get set until the
     	//navigator url is first set
-    	return (rule != null) ? rule.matchUrlPrefix(url) : url;
+    	return strictMatching ? rule.matchUrlPrefix(url) : url;
     }
 
     /**
