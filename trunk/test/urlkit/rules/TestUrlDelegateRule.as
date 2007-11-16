@@ -56,5 +56,14 @@ public class TestUrlDelegateRule extends TestCase
         Assert.assertEquals("111", r.url);
         Assert.assertTrue("now active", r.active);
     }
+    
+    public function testStrictPrefixMatching():void
+    {
+        r1.urlFormat="/*";
+        r.strictMatching = true;
+        assertEquals("Matching is strict", "/bar", r.matchUrlPrefix("/bar/111"));
+        r.strictMatching = false;
+        assertEquals("Matching is relaxed", "/bar/111", r.matchUrlPrefix("/bar/111"));
+    }
 }
 }
