@@ -14,8 +14,8 @@
     </url:UrlRuleSet>
 
     <mx:TabNavigator id="tn" width="100%" height="100%">
+        <StatelessExample />
         <StatesExample />
-        <InitialStateExample />
         <StatesAndFormsExample />
     </mx:TabNavigator>
 </mx:Application> 
