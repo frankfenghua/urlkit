@@ -29,6 +29,7 @@ import flash.external.*;
 import flash.net.*;
 import flash.system.*;
 import flash.utils.Timer;
+import flash.utils.getDefinitionByName;
 
 import mx.controls.*;
 import mx.core.*;
@@ -194,7 +195,20 @@ public class FlexBrowserManagerAdapter extends EventDispatcher implements IMXMLO
      */
     private function initializeState():void
     {
-    	_browserManager = BrowserManager.getInstance();
+        try
+        {
+            _browserManager = BrowserManager.getInstance();
+        }
+        catch (e:Error)
+        {
+            // Defensively register BrowserManager singleton in case we are running
+            // in a Flex 2 environment
+            trace("registering BrowserManagerImpl");
+            Singleton.registerClass("mx.managers::IBrowserManager",
+                Class(getDefinitionByName("mx.managers::BrowserManagerImpl")));
+            _browserManager = BrowserManager.getInstance();
+        }
+        
 		_browserManager.addEventListener(BrowserChangeEvent.BROWSER_URL_CHANGE, setPlayerUrl);
     	_browserManager.init(applicationState.url, applicationState.title);
         _stateInitialized = true;
