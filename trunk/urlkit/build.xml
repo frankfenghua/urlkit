@@ -12,6 +12,7 @@
 		<java jar="${flex.compc.jar}" dir="." fork="true" failonerror="true">
 			<arg value="+flexlib=${flex.home}/frameworks"/>
 		    <arg value="-source-path=src"/>
+		    <arg value="-library-path+=libs/flex2BrowserManager.swc"/>
 		    <arg value="-output=bin/urlkit.swc"/>
 		    <arg value="-namespace=${manifest.uri},src/urlkit-manifest.xml"/>
 		    <arg value="-include-namespaces=${manifest.uri}"/>
@@ -20,9 +21,9 @@
 	<target name="build-flex3">
 		<java jar="${flex3.compc.jar}" dir="." fork="true" failonerror="true">
 			<arg value="+flexlib=${flex3.home}/frameworks"/>
-		    <arg value="-source-path=src,flex3"/>
+		    <arg value="-source-path=src"/>
 		    <arg value="-output=bin/urlkitFlex3.swc"/>
-		    <arg value="-namespace=${manifest.uri},flex3/urlkit-manifest.xml"/>
+		    <arg value="-namespace=${manifest.uri},src/urlkit-manifest.xml"/>
 		    <arg value="-include-namespaces=${manifest.uri}"/>
 		</java>
 	</target>
