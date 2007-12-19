@@ -1,5 +1,5 @@
 <project name="urlkitDist" default="all">
-    <property name="version" value="0.70"/>
+    <property name="version" value="0.80"/>
     <property name="dist.dir" value="urlkit-${version}"/>
 
     <target name="dist">
