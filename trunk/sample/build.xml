@@ -24,7 +24,7 @@
 			<arg value="+flexlib=${flex3.home}/frameworks"/>
 		    <arg value="-library-path+=../urlkit/bin/urlkitFlex3.swc"/>
 			<arg value="-output=bin/BookmarksFlex3.swf"/>
-			<arg value="BookmarksFlex3.mxml"/>
+			<arg value="Bookmarks.mxml"/>
 		</java>
 	</target>
 		
@@ -32,6 +32,7 @@
 		<copy todir="bin">
 			<fileset dir="html-template" excludes=".svn/**.*"/>
 			<fileset file="BookmarksMain.html"/>
+			<fileset file="BookmarksFlex3Main.html"/>
 		</copy>
 	</target>
 
