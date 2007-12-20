@@ -1,5 +1,5 @@
 <project name="Bookmarks" default="build">
-	<property name="flex.sdks" value="C:/Apps/Flex"/>
+	<property name="flex.sdks" value="/Applications/Adobe Flex Builder 3 Plug-in/sdks"/>
 	<property name="flex.sdk.version" value="2.0.1"/>
 	<property name="flex.home" value="${flex.sdks}/${flex.sdk.version}"/>
 	<property name="flex.mxmlc.jar" value="${flex.home}/lib/mxmlc.jar"/>
@@ -7,8 +7,7 @@
 	<property name="flex3.home" value="${flex.sdks}/${flex3.sdk.version}"/>
 	<property name="flex3.mxmlc.jar" value="${flex3.home}/lib/mxmlc.jar"/>
 
-	<property name="catalina.home" value="c:/Apps/apache-tomcat-6.0.14/"/>
-	<property name="deploy.dir" value="${catalina.home}/webapps/ROOT/urlkit-sample"/>
+	<property name="deploy.dir" value="/Users/joeb/Sites/urlkit-sample"/>
 
 	<target name="build">
 		<java jar="${flex.mxmlc.jar}" dir="." fork="true" failonerror="true">
