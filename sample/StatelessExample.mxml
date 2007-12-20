@@ -11,10 +11,11 @@
         <![CDATA[
             import flash.net.navigateToURL;
             import flash.net.URLRequest;
+            import urlkit.rules.FlexBrowserManagerAdapter;
             
             private function navigateToDestination():void
             {
-                navigateToURL(new URLRequest("#/StatesAndFormsExample/sideB/step2"), "_self");
+                FlexBrowserManagerAdapter.getInstance().navigate("/StatesAndFormsExample/sideB/step2");
             }
         ]]>
     </mx:Script>

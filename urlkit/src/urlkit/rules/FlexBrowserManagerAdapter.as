@@ -46,7 +46,7 @@ public class FlexBrowserManagerAdapter extends EventDispatcher implements IMXMLO
 {
     private var _browserManager:IBrowserManager;
 
-	// flag indicating that our owning application document is completely set up
+    // flag indicating that our owning application document is completely set up
     private var _complete:Boolean = false;
     
     // the latest browser URL that we know of
@@ -66,15 +66,34 @@ public class FlexBrowserManagerAdapter extends EventDispatcher implements IMXMLO
 
     // flag indicating that the application state has been considered once after creationComplete
     private var _stateInitialized:Boolean = false;
-    
-    [Bindable]
-    public var playerId:String;
+
+    // flag indicating that the browser manager is enabled.
+    private var _enabled:Boolean = true;
+
+    // static handle to single instance of this adapter
+    private static var _instance:FlexBrowserManagerAdapter = null;
     
     /**
      * Construct an instance of FlexBrowserManager and initialize the external interface to the browser.
      */    
     public function FlexBrowserManagerAdapter()
     {
+        if (_instance == null)
+        {
+            _instance = this;
+        }
+        else
+        {
+            throw new Error("Attempt to instantiate FlexBrowserManagerAdapter multiple times");
+        }
+    }
+
+    /**
+     * Retrieve singleton instance of the FlexBrowserManagerAdapter.
+     */
+    public static function getInstance():FlexBrowserManagerAdapter
+    {
+        return _instance;
     }
 
     /**
@@ -98,8 +117,33 @@ public class FlexBrowserManagerAdapter extends EventDispatcher implements IMXMLO
     private function creationComplete(event:Event):void
     {
         _complete = true;
+        if (_enabled)
+        {
+            updateState();
+        }
+    }
 
-        updateState();
+    /**
+     * The enabled state of this FlexBrowserManagerAdapter.  Set this flag
+     * to false in the MXML definition of this object in order to delay initialization
+     * of the UrlKit system, then programmatically set it to true later once the
+     * application is fully initialized.
+     */
+    public function get enabled():Boolean
+    {
+        return _enabled;
+    }
+
+    public function set enabled(flag:Boolean):void
+    {
+        if (_enabled != flag)
+        {
+            _enabled = flag;
+            if (_enabled && _complete)
+            {
+                updateState();
+            }
+        }
     }
     
     [Bindable("change")]
@@ -122,7 +166,7 @@ public class FlexBrowserManagerAdapter extends EventDispatcher implements IMXMLO
         {
             dispatchEvent(new Event(Event.CHANGE));
 
-            if (_complete)
+            if (_complete && _enabled)
             {
 	            _browserManager.setFragment(newUrl);
             }
@@ -136,6 +180,24 @@ public class FlexBrowserManagerAdapter extends EventDispatcher implements IMXMLO
     {
         return _browserManager.fragment;
     }
+
+    /**
+     * Navigate to a given URL fragment, simultaneously setting both the browser location
+     * and the application state.  This function may only be called once the
+     * FlexBrowserManagerAdapter has been enabled and is started.
+     *
+     * @param newUrl the URL fragment to which the application should navigate.
+     */
+    public function navigate(url:String):void
+    {
+        if (!(_enabled && _complete))
+        {
+            throw new Error("navigate() not allowed until UrlKit is enabled and started.");
+        }
+        browserUrl = url;
+        applicationState.containerUrl = url;
+    }
+    
 
     /**
      * Event handler called in response to STATE_CHANGE events
@@ -158,7 +220,7 @@ public class FlexBrowserManagerAdapter extends EventDispatcher implements IMXMLO
      */
     private function syncState():void
     {
-        if (_updateRequested && _complete && applicationState != null)
+        if (_updateRequested && _complete && _enabled && applicationState != null)
         {
             try
             {
@@ -203,13 +265,13 @@ public class FlexBrowserManagerAdapter extends EventDispatcher implements IMXMLO
         {
             // Defensively register BrowserManager singleton in case we are running
             // in a Flex 2 environment
-            trace("registering BrowserManagerImpl");
+            //
             Singleton.registerClass("mx.managers::IBrowserManager",
                 Class(getDefinitionByName("mx.managers::BrowserManagerImpl")));
             _browserManager = BrowserManager.getInstance();
         }
         
-		_browserManager.addEventListener(BrowserChangeEvent.BROWSER_URL_CHANGE, setPlayerUrl);
+        _browserManager.addEventListener(BrowserChangeEvent.BROWSER_URL_CHANGE, setPlayerUrl);
     	_browserManager.init(applicationState.url, applicationState.title);
         _stateInitialized = true;
         
