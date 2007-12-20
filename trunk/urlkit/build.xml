@@ -1,12 +1,12 @@
 <project name="urlkit" default="build">
-	<property name="flex.sdks" value="C:/Apps/Flex"/>
+	<property name="flex.sdks" value="/Applications/Adobe Flex Builder 3 Plug-in/sdks"/>
 	<property name="flex.sdk.version" value="2.0.1"/>
 	<property name="flex.home" value="${flex.sdks}/${flex.sdk.version}"/>
     <property name="flex.compc.jar" value="${flex.home}/lib/compc.jar"/>
-    <property name="flex.asdoc.jar" value="${flex.home}/lib/asdoc.jar"/>
 	<property name="flex3.sdk.version" value="3.0.0"/>
 	<property name="flex3.home" value="${flex.sdks}/${flex3.sdk.version}"/>
 	<property name="flex3.compc.jar" value="${flex3.home}/lib/compc.jar"/>
+    <property name="flex3.asdoc.jar" value="${flex3.home}/lib/asdoc.jar"/>
 	<property name="manifest.uri" value="http://www.allurent.com/2006/urlkit"/>
 	<target name="build">
 		<java jar="${flex.compc.jar}" dir="." fork="true" failonerror="true">
@@ -28,8 +28,8 @@
 		</java>
 	</target>
     <target name="doc">
-        <java jar="${flex.asdoc.jar}" dir="." fork="true" failonerror="true">
-            <arg value="+flexlib=${flex.home}/frameworks"/>
+        <java jar="${flex3.asdoc.jar}" dir="." fork="true" failonerror="true">
+            <arg value="+flexlib=${flex3.home}/frameworks"/>
             <arg value="-doc-sources=src"/>
             <arg value="-output=doc"/>
         </java>
