@@ -1,5 +1,5 @@
 <project name="urlkitDist" default="all">
-    <property name="version" value="0.91"/>
+    <property name="version" value="0.92"/>
     <property name="dist.dir" value="urlkit-${version}"/>
 
     <target name="dist">
@@ -10,6 +10,7 @@
         <ant dir="sample" target="clean"/>
         <ant dir="sample" target="build"/>
         <ant dir="sample" target="build-flex3"/>
+        <ant dir="sample" target="stage"/>
     </target>
 
     <target name="stage">
